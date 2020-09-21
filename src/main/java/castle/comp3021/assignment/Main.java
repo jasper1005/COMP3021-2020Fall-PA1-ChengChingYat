@@ -36,9 +36,13 @@ public class Main {
         var knight1 = new Knight(userPlayer);
         var knight2 = new Knight(computerPlayer);
         // put knight1 at place(0,0) on the gameboard
-        configuration.addInitialPiece(knight1, 0, 0);
-        // put knight2 at place(1,0) on the gameboard
-        configuration.addInitialPiece(knight2, 1, 0);
+        for(int i = 0; i < configuration.getSize();i++) {
+            configuration.addInitialPiece(knight1, i, 0);
+        }
+        for(int i = 0; i < configuration.getSize();i++) {
+            // put knight2 at place(1,0) on the gameboard
+            configuration.addInitialPiece(knight2, size-1-i, size-1);
+        }
         return new JesonMor(configuration);
     }
 
