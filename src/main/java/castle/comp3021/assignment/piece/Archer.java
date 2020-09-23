@@ -18,7 +18,6 @@ import castle.comp3021.assignment.protocol.Player;
 public class Archer extends Piece {
     public Archer(Player player) {
         super(player);
-        throw new UnsupportedOperationException(); // remove this line if you plan to implement Archer
     }
 
     @Override

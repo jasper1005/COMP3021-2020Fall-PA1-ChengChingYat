@@ -3,6 +3,8 @@ package castle.comp3021.assignment.player;
 import castle.comp3021.assignment.protocol.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Scanner;
+
 /**
  * The player that makes move according to user input from console.
  */
@@ -41,6 +43,9 @@ public class ConsolePlayer extends Player {
     @Override
     public @NotNull Move nextMove(Game game, Move[] availableMoves) {
         // TODO student implementation
+        Scanner moveInput = new Scanner(System.in);
+        System.out.println(game.getCurrentPlayer().getName());
+        System.out.println(" Make a Move: ");
         return availableMoves[0];
     }
 }
