@@ -62,6 +62,8 @@ public class JesonMor extends Game {
             if(winner == null && getPieceCount(getNextPlayer()) == 0)
                 winner = currentPlayer;
 
+            refreshOutput();
+
             // student implementation ends here
             if (winner != null) {
                 System.out.println();
@@ -69,8 +71,6 @@ public class JesonMor extends Game {
                 System.out.printf("Winner: %s%s%s\n", winner.getColor(), winner.getName(), Color.DEFAULT);
                 return winner;
             }
-
-            refreshOutput();
         }
     }
 
@@ -136,8 +136,6 @@ public class JesonMor extends Game {
      * @param move   the move that is just made
      */
     public void updateScore(Player player, Piece piece, Move move) {
-        if(move == null || player == null)
-            return;
         var score = destiny(move.getSource(),move.getDestination());
         player.setScore(player.getScore()+score);
     }
@@ -163,8 +161,6 @@ public class JesonMor extends Game {
      * @param move the move to make
      */
     public void movePiece(@NotNull Move move) {
-        if(move == null)
-            return;
         var source = move.getSource();
         var dest = move.getDestination();
         board[dest.x()][dest.y()] = board[source.x()][source.y()];

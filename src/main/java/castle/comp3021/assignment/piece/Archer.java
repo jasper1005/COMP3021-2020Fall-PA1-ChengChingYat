@@ -6,6 +6,8 @@ import castle.comp3021.assignment.protocol.Piece;
 import castle.comp3021.assignment.protocol.Place;
 import castle.comp3021.assignment.protocol.Player;
 
+import java.util.ArrayList;
+
 /**
  * Archer piece that moves similar to cannon in chinese chess.
  * Rules of move of Archer can be found in wikipedia (https://en.wikipedia.org/wiki/Xiangqi#Cannon).
@@ -42,7 +44,97 @@ public class Archer extends Piece {
      */
     @Override
     public Move[] getAvailableMoves(Game game, Place source) {
-        // TODO student implementation
-        return new Move[0];
+        var size = game.getConfiguration().getSize();
+        var canCapture  = game.getConfiguration().getNumMovesProtection() <= game.getNumMoves();
+        var ret = new ArrayList<Move>();
+        int newX,newY;
+        boolean canLeft, canRight, canUp, canDown;
+
+        canLeft = true;
+        canRight = true;
+        canUp = true;
+        canDown = true;
+        for(int i = 1;i < size;++i) {
+            if(canRight) {
+                newX = source.x() + i;
+                newY = source.y();
+                if (legalPlace(size, newX, newY) && game.getPiece(newX, newY) == null)
+                    ret.add(new Move(source, newX, newY));
+                else {
+                    canRight = false;
+                    if(canCapture) {
+                        ++newX;
+                        while(legalPlace(size, newX, newY) && game.getPiece(newX,newY) == null) {
+                            ++newX;
+                        }
+                        if(legalPlace(size,newX,newY) && game.getPiece(newX,newY).getPlayer() != this.getPlayer()) {
+                            ret.add(new Move(source,newX,newY));
+                        }
+                    }
+                }
+            }
+
+            if(canUp) {
+                newX = source.x();
+                newY = source.y() + i;
+                if (legalPlace(size, newX, newY) && game.getPiece(newX, newY) == null)
+                    ret.add(new Move(source, newX, newY));
+                else {
+                    canUp = false;
+                    if(canCapture) {
+                        ++newY;
+                        while(legalPlace(size, newX, newY) && game.getPiece(newX,newY) == null) {
+                            ++newY;
+                        }
+                        if(legalPlace(size,newX,newY) && game.getPiece(newX,newY).getPlayer() != this.getPlayer()) {
+                            ret.add(new Move(source,newX,newY));
+                        }
+                    }
+                }
+            }
+
+            if(canLeft) {
+                newX = source.x() - i;
+                newY = source.y();
+                if (legalPlace(size, newX, newY) && game.getPiece(newX, newY) == null)
+                    ret.add(new Move(source, newX, newY));
+                else {
+                    canLeft = false;
+                    if(canCapture) {
+                        --newX;
+                        while (legalPlace(size, newX, newY) && game.getPiece(newX, newY) == null) {
+                            --newX;
+                        }
+                        if (legalPlace(size, newX, newY) && game.getPiece(newX, newY).getPlayer() != this.getPlayer()) {
+                            ret.add(new Move(source, newX, newY));
+                        }
+                    }
+                }
+            }
+
+            if(canDown) {
+                newX = source.x();
+                newY = source.y() - i;
+                if (legalPlace(size, newX, newY) && game.getPiece(newX, newY) == null)
+                    ret.add(new Move(source, newX, newY));
+                else {
+                    canDown = false;
+                    if(canCapture) {
+                        --newY;
+                        while (legalPlace(size, newX, newY) && game.getPiece(newX, newY) == null) {
+                            --newY;
+                        }
+                        if (legalPlace(size, newX, newY) && game.getPiece(newX, newY).getPlayer() != this.getPlayer()) {
+                            ret.add(new Move(source, newX, newY));
+                        }
+                    }
+                }
+            }
+        }
+        return ret.toArray(Move[]::new);
+    }
+
+    private boolean legalPlace(int size, int newX, int newY) {
+        return newX >= 0 && newX < size && newY >= 0 && newY < size;
     }
 }
