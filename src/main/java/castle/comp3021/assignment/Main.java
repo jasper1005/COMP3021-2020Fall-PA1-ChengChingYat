@@ -1,7 +1,7 @@
 package castle.comp3021.assignment;
 
-import castle.comp3021.assignment.piece.Knight;
 import castle.comp3021.assignment.piece.Archer;
+import castle.comp3021.assignment.piece.Knight;
 import castle.comp3021.assignment.player.ConsolePlayer;
 import castle.comp3021.assignment.player.RandomPlayer;
 import castle.comp3021.assignment.protocol.Configuration;
@@ -28,30 +28,23 @@ public class Main {
      * @return the game object
      */
     public static Game createGame(int size, int numMovesProtection) {
-        // TODO student implementation
         // The following lines are example of constructing a game object, you may modify them as you wish.
         var userPlayer = new ConsolePlayer("UserPlayer");
         var computerPlayer = new RandomPlayer("ComputerPlayer");
+
         // we give
         Configuration configuration = new Configuration(size, new Player[]{userPlayer, computerPlayer}, numMovesProtection);
-        var knight1 = new Knight(userPlayer);
-        var knight2 = new Knight(computerPlayer);
-        var archer1 = new Archer(userPlayer);
-        var archer2 = new Archer(computerPlayer);
-        // put knight1 at place(0,0) on the gameboard
-        for(int i = 0; i < configuration.getSize();i++) {
-            if(i % 2 == 0)
-            configuration.addInitialPiece(knight1, i, 0);
-            else
-            configuration.addInitialPiece(archer1, i, 0);
+
+        for(int i = 0;i<size;++i){
+            if(i%2==0) {
+                configuration.addInitialPiece(new Knight(userPlayer), i, 0);
+                configuration.addInitialPiece(new Knight(computerPlayer), i, size - 1);
+            }else{
+                configuration.addInitialPiece(new Archer(userPlayer), i, 0);
+                configuration.addInitialPiece(new Archer(computerPlayer), i, size - 1);
+            }
         }
-        for(int i = 0; i < configuration.getSize();i++) {
-            // put knight2 at place(1,0) on the gameboard
-            if(i % 2 == 0)
-                configuration.addInitialPiece(knight2, size-1-i, size-1);
-            else
-                configuration.addInitialPiece(archer2, size-1-i, size-1);
-        }
+
         return new JesonMor(configuration);
     }
 
