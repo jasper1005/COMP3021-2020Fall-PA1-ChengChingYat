@@ -43,9 +43,7 @@ public class ConsolePlayer extends Player {
     @Override
     public @NotNull Move nextMove(Game game, Move[] availableMoves) {
         // TODO student implementation
-        Scanner moveInput = new Scanner(System.in);
-        System.out.println(game.getCurrentPlayer().getName());
-        System.out.println(" Make a Move: ");
+
         return availableMoves[0];
     }
 }
